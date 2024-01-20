@@ -17,7 +17,7 @@ namespace Utad.XRInteractionSystem.Input
 
 		private void OnEnable()
 		{
-			_actionReference.action.performed += HandleOnActionPerformed;
+            _actionReference.action.performed += HandleOnActionPerformed;
 			_actionReference.action.canceled += HandleOnActionCancelled;
 		}
 		
