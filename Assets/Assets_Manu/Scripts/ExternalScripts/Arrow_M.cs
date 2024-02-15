@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using MEC;
 
 public class Arrow_M : XRGrabInteractable
 {
@@ -48,6 +49,11 @@ public class Arrow_M : XRGrabInteractable
                 transform.parent = hit.transform;
                 body.AddForce(_rb.velocity, ForceMode.Impulse);
             }
+
+            if(hit.transform.TryGetComponent(out IHittable_M hittable))
+            {
+                hittable.Hit();
+            }
             Stop();
         }
     }
@@ -66,7 +72,7 @@ public class Arrow_M : XRGrabInteractable
         _inAir = true;
         SetPhysics(true);
         MaskAndFire(value);
-        StartCoroutine(RotateWithVelocity());
+        Timing.RunCoroutine(RotateWithVelocity());
 
         _lastPosition = Tip.position;
 
@@ -83,21 +89,22 @@ public class Arrow_M : XRGrabInteractable
     private void MaskAndFire(float power)
     {
         colliders[0].enabled = false;
-        interactionLayerMask = 1 << LayerMask.NameToLayer("Ignore");
+        interactionLayers = 1 << LayerMask.NameToLayer("Ignore");
         Vector3 force = transform.forward * power * Speed;
         _rb.AddForce(force,ForceMode.Impulse);
         transform.parent = null;
     }
 
-    private IEnumerator RotateWithVelocity()
+    private IEnumerator<float> RotateWithVelocity()
     {
-        yield return new WaitForFixedUpdate();
+        
         while (_inAir)
         {
             Quaternion newRotation = Quaternion.LookRotation(_rb.velocity, transform.up);
             transform.rotation = newRotation;
-            yield return null;
+            yield return Timing.WaitForOneFrame;
         }
+        yield return 0f;
     }
 
     public void ArrowHaptic(HoverEnterEventArgs args)
