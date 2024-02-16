@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IHittable_M
 {
     public void Hit();
+    public void RemoveHits();
 }

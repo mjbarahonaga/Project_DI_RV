@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2769254112760483858}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AttachPoint
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 567255013439366980}
   - component: {fileID: 7207765060696323937}
   - component: {fileID: 2179491838557941251}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HitParticle_Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4932,7 +4932,7 @@ GameObject:
   - component: {fileID: 8165161341577394469}
   - component: {fileID: 8476804344862767042}
   - component: {fileID: 5547675337975477304}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5050,7 +5050,7 @@ GameObject:
   - component: {fileID: 7989962352995283427}
   - component: {fileID: 7582239103957525333}
   - component: {fileID: 1659888115274463321}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5133,7 +5133,7 @@ GameObject:
   - component: {fileID: 742523869564605443}
   - component: {fileID: 1211628067597966733}
   - component: {fileID: 4392574108230357233}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HitParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10028,7 +10028,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7008190765260830047}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tip
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -10065,7 +10065,7 @@ GameObject:
   - component: {fileID: 8992706414882166459}
   - component: {fileID: 1994318353603084165}
   - component: {fileID: 8308941271632691852}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10112,11 +10112,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &8992706414882166459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10135,7 +10135,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 3
+    m_Bits: 4
   m_DistanceCalculationMode: 1
   m_SelectMode: 0
   m_FocusMode: 1
@@ -10256,7 +10256,7 @@ MonoBehaviour:
   m_SmoothScale: 0
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -10281,14 +10281,19 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
-  Speed: 15
+  Speed: 25
   Tip: {fileID: 7008190765260830047}
   SphereCollider: {fileID: 8308941271632691852}
+  _layersToAvoidOnHit:
+    serializedVersion: 2
+    m_Bits: 200
   TrailParticle: {fileID: 6361444922607483788}
   HitParticle: {fileID: 1211628067597966733}
   TrailRenderer: {fileID: 8846485861766642570}
   LaunchClip: {fileID: 8300000, guid: 4f32e665292441642ba73167ae792e0d, type: 3}
   HitClip: {fileID: 8300000, guid: 0a7823b1a5691514fa4e2aa48f82a10c, type: 3}
+  _rb: {fileID: 4232456087726100824}
+  _changeToIgnoreLayer: 9
 --- !u!65 &1994318353603084165
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10329,7 +10334,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
+  m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: -0.3}
 --- !u!1 &9108730401123398143
 GameObject:
@@ -10343,7 +10348,7 @@ GameObject:
   - component: {fileID: 6361444922607483788}
   - component: {fileID: 6345574429953983404}
   - component: {fileID: 8846485861766642570}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TrailParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

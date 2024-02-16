@@ -258,6 +258,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3579371566490206245}
+  - component: {fileID: 5657094603378636296}
+  - component: {fileID: 2361351390838105903}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -285,6 +287,54 @@ Transform:
   - {fileID: 853904023272901067}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5657094603378636296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4088494380862734787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b434801bdeb3ed546ab9962c2adbcc3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: 10
+  _sizeCube: {x: 1, y: 1, z: 1}
+  _showGizmos: 0
+  _showInitalPos: 1
+  _meshToShow: {fileID: 0}
+  _copyCurrentPosition: 0
+  _showAnimation: 0
+  TypeAnimation: 32
+  FinalPositionY: 0
+  TimeToActivate: 0.4
+  InitalPositionY: 0
+  TimeToDeactivate: 0.2
+  ActivatedSound: {fileID: 11400000, guid: 1bef66bfdf028a148bece792ef73e8bc, type: 2}
+  DeactivatedSound: {fileID: 11400000, guid: e6abf9e0bff6f694fb0f5d1b9548d627, type: 2}
+  HittedSound: {fileID: 11400000, guid: 9f3818622cf9b5b4281478f53b68515f, type: 2}
+--- !u!65 &2361351390838105903
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4088494380862734787}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.2756176, z: 1}
+  m_Center: {x: 0, y: 0.020430565, z: 0}
 --- !u!1 &5593308306073735597
 GameObject:
   m_ObjectHideFlags: 0

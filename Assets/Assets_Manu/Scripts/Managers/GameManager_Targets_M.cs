@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MEC;
 using System.Linq;
+using DG.Tweening;
 
 public class GameManager_Targets_M : MonoBehaviour
 {
@@ -10,21 +11,26 @@ public class GameManager_Targets_M : MonoBehaviour
     public float GameTime = 180f;
     [SerializeField] private float _activeTargetTime = 4f;
     [SerializeField] private int _currentScore = 0;
+    private bool _gameStarted = false;
     private float _timeToFinish = 0f;
     [Header("Time range to call targets")]
     public float Min = .1f;
     public float Max = 2f;
 
+    [Header("Objects in scene")]
+    public GameObject PushButton;
+
     private CoroutineHandle _coroutine;
 
-    private List<TargetBehaviour_M> _targetsRef = new List<TargetBehaviour_M>();
+    [SerializeField] private bool _findTargetsInScene = false;
+    [SerializeField] private List<TargetBehaviour_M> _targetsRef = new List<TargetBehaviour_M>();
     private List<TargetBehaviour_M> _targetsDeactivated = new List<TargetBehaviour_M>();
     private List<TargetBehaviour_M> _targetsActivated = new List<TargetBehaviour_M>();
 
     private void Awake()
     {
         if (_targetsRef.Count == 0) _targetsRef = FindObjectsOfType<TargetBehaviour_M>().ToList();
-        _targetsActivated = new List<TargetBehaviour_M>(_targetsRef);
+        _targetsDeactivated = new List<TargetBehaviour_M>(_targetsRef);
     }
 
     private void Start()
@@ -41,8 +47,11 @@ public class GameManager_Targets_M : MonoBehaviour
 
     public void StartGame()
     {
+        if(_gameStarted) return;
+        _gameStarted = true;
         _currentScore = 0;
         _coroutine = Timing.RunCoroutine(UpdateGameCoroutine());
+        PushButton.transform.DOScale(Vector3.zero,1f).SetEase(Ease.OutBounce);
     }
 
     private IEnumerator<float> UpdateGameCoroutine()
@@ -52,7 +61,8 @@ public class GameManager_Targets_M : MonoBehaviour
         float currentTime = 0f;
         while(_timeToFinish >= Time.time)
         {
-            if(currentTime >= timeToCallTarget)
+            currentTime += Time.deltaTime;
+            if (currentTime >= timeToCallTarget)
             {
                 currentTime = 0f;
                 timeToCallTarget = Random.Range(Min, Max);
@@ -86,14 +96,16 @@ public class GameManager_Targets_M : MonoBehaviour
 
     private void FinishGame()
     {
+        Timing.KillCoroutines(_coroutine);
         int length = _targetsActivated.Count;
         for (int i = 0; i < length; ++i)
         {
-            _targetsActivated[i].Deactivate();
+            _targetsActivated[i].Deactivate(hitted: false);
         }
+        _gameStarted = false;
         _targetsActivated.Clear();
         _targetsActivated = new List<TargetBehaviour_M>(_targetsRef);
-
+        PushButton.transform.DOScale(Vector3.one, 1f).SetEase(Ease.InBounce);
         // Show data
 
     }
@@ -103,4 +115,16 @@ public class GameManager_Targets_M : MonoBehaviour
         _currentScore += score;
         // Update Canvas
     }
+
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (_findTargetsInScene)
+        {
+            _findTargetsInScene = false;
+            _targetsRef = FindObjectsOfType<TargetBehaviour_M>().ToList();
+        }
+    }
+#endif
 }

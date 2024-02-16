@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -11,7 +12,7 @@ public class Notch_M : XRSocketInteractor
 {
     private PullInteraction_M _pullInteraction;
     private Arrow_M _currentArrow;
-
+    private Arrow_M _prevArrow = null;
     [Header("Sound")]
     public AudioClip AttachClip;
 
@@ -36,8 +37,10 @@ public class Notch_M : XRSocketInteractor
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
+        
         base.OnSelectEntered(args);
         var arrow = args.interactableObject as Arrow_M;
+        if (arrow == _prevArrow) return;
         if (arrow == null) return;
 
         StoreArrow(arrow);
@@ -66,19 +69,23 @@ public class Notch_M : XRSocketInteractor
     {
         if (_currentArrow)
         {
-            ForceDeselect();
+            ForceDeselect(_currentArrow);
             ReleaseArrow();
         }
     }
-    private void ForceDeselect()
+    private void ForceDeselect(Arrow_M arrow)
     {
-        interactionManager.SelectExit(this, firstInteractableSelected);
+        _currentArrow.interactionManager.SelectExit((IXRSelectInteractor)this, arrow);
+        //interactionManager.SelectExit((IXRSelectInteractor)this, _currentArrow);
        // _currentArrow.interactionManager.SelectExit(_currentArrow.firstInteractorSelecting, (IXRSelectInteractable)_currentArrow);
     }
 
     private void ReleaseArrow()
     {
+        // Change layer to be ignored by hands
+        _currentArrow.ChangeLayer();
         _currentArrow.Release(_pullInteraction.PullAmount);
+        _prevArrow = _currentArrow;
         _currentArrow = null;
     }
 
@@ -95,5 +102,7 @@ public class Notch_M : XRSocketInteractor
         //    Volume = 1.0f,
         //    SourceID = id
         //});
+
+        SoundManager.Instance.PlaySound(transform.position, clip, 1, Random.Range(minPitch, maxPitch));
     }
 }
