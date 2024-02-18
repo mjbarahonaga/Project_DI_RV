@@ -82,7 +82,7 @@ public class Notch_M : XRSocketInteractor
 
     private void ReleaseArrow()
     {
-        // Change layer to be ignored by hands
+        // Change layer to be ignored by notch
         _currentArrow.ChangeLayer();
         _currentArrow.Release(_pullInteraction.PullAmount);
         _prevArrow = _currentArrow;

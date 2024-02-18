@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class Bow_M : XRGrabInteractable
@@ -18,6 +19,8 @@ public class Bow_M : XRGrabInteractable
     [Header("Quiver")]
     public Transform Quiver;
     public Vector2 QuiverOffset;
+
+    public XRSocketInteractor BowSocket;
 
     private HandType _handGrabbed = HandType.None;
     public HandType HandGrabbed => _handGrabbed;
@@ -51,7 +54,30 @@ public class Bow_M : XRGrabInteractable
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
+        //if (BowSocket.firstInteractableSelected == (IXRSelectInteractable)this
+        //    && args.interactorObject is HandInteractor_M hand)
+        //{
+        //    BowSocket.interactionManager.SelectExit(BowSocket, (IXRSelectInteractable)this);
+        //    hand.interactionManager.SelectEnter(hand, (IXRSelectInteractable)this);
+        //}
+        //if (firstInteractorSelecting == (IXRSelectInteractor)BowSocket && args.interactorObject is HandInteractor_M hand)
+        //{
+        //    interactionManager.SelectExit(BowSocket, (IXRSelectInteractable)this)
+        //    this.Detach();
+        //    hand.interactionManager.SelectEnter(hand, (IXRSelectInteractable)this);
+            
+        //}
     }
+
+    public void ForceAttachToSocket(SelectExitEventArgs args)
+    {
+        if (BowSocket.firstInteractableSelected != (IXRSelectInteractable)this
+            &&
+            args.interactorObject == (IXRSelectInteractor)BowSocket) return;
+
+            BowSocket.StartManualInteraction((IXRSelectInteractable)this);
+    }
+
 
     public void OffsetQuiver(SelectEnterEventArgs args)
     {

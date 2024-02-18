@@ -4,6 +4,8 @@ using UnityEngine;
 using MEC;
 using System;
 using DG.Tweening;
+using TMPro;
+using System.Threading.Tasks;
 
 public class TargetBehaviour_M : MonoBehaviour, IHittable_M
 {
@@ -40,10 +42,19 @@ public class TargetBehaviour_M : MonoBehaviour, IHittable_M
     public SoundData DeactivatedSound;
     public SoundData HittedSound;
 
+    [Header("Feedback")]
+    [SerializeField] private ParticleSystem _hitParticles;
+    [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private CanvasGroup _canvasGroup;
     //#region Animation Id
     //private int _idAnimActivate;
     //private int _idAnimDeactivate;
     //#endregion
+
+    private void Start()
+    {
+        _scoreText.text = Score.ToString();
+    }
 
     public void Hit()
     {
@@ -84,7 +95,9 @@ public class TargetBehaviour_M : MonoBehaviour, IHittable_M
         _isActivate = false;
         if (hitted)
         {
+            _hitParticles?.Play();
             SoundManager.Instance.PlaySound(transform.position, HittedSound);
+            StartCoroutine(TextAnim());
             await transform.DOScale(0.5f, 1).SetEase(Ease.InBounce).AsyncWaitForCompletion();
             SoundManager.Instance.PlaySound(transform.position, DeactivatedSound);
         }
@@ -96,6 +109,17 @@ public class TargetBehaviour_M : MonoBehaviour, IHittable_M
         OnDeactivatedTarget?.Invoke(this);
         transform.localScale = Vector3.one;
         RemoveHits();
+    }
+
+    private IEnumerator TextAnim()
+    {
+        _canvasGroup.alpha = 0;
+        _scoreText.enabled = true;
+        _scoreText.rectTransform.DOPunchPosition(new Vector3(1f, 0f, 0f), 1);
+        _scoreText.DOColor(new Color(1f, 0.6f, 0.3f), 1).SetEase(Ease.InOutElastic).From(Color.white);
+        yield return _canvasGroup.DOFade(1, 0.8f).WaitForCompletion();
+        yield return _canvasGroup.DOFade(0, 0.4f).WaitForCompletion();
+        _scoreText.enabled = false;
     }
 
 #if UNITY_EDITOR

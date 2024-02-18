@@ -4,6 +4,7 @@ using UnityEngine;
 using MEC;
 using System.Linq;
 using DG.Tweening;
+using TMPro;
 
 public class GameManager_Targets_M : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class GameManager_Targets_M : MonoBehaviour
 
     [Header("Objects in scene")]
     public GameObject PushButton;
+    public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI TimeText;
 
     private CoroutineHandle _coroutine;
 
@@ -58,16 +61,19 @@ public class GameManager_Targets_M : MonoBehaviour
     {
         _timeToFinish = Time.time + GameTime;
         float timeToCallTarget = Random.Range(Min, Max);
+        float currentTimeToTargets = 0f;
         float currentTime = 0f;
         while(_timeToFinish >= Time.time)
         {
+            TimeText.text = "Timer: \n" + (GameTime - currentTime).ToString("F1");
+            currentTimeToTargets += Time.deltaTime;
             currentTime += Time.deltaTime;
-            if (currentTime >= timeToCallTarget)
+            if (currentTimeToTargets >= timeToCallTarget)
             {
-                currentTime = 0f;
+                currentTimeToTargets = 0f;
                 timeToCallTarget = Random.Range(Min, Max);
 
-                //call inactive target
+                //call inactivated target
                 ActivateTarget();
             }
             yield return Timing.WaitForOneFrame;
@@ -97,6 +103,7 @@ public class GameManager_Targets_M : MonoBehaviour
     private void FinishGame()
     {
         Timing.KillCoroutines(_coroutine);
+        TimeText.text = "Timer: \n" + GameTime.ToString("F1"); 
         int length = _targetsActivated.Count;
         for (int i = 0; i < length; ++i)
         {
@@ -106,14 +113,13 @@ public class GameManager_Targets_M : MonoBehaviour
         _targetsActivated.Clear();
         _targetsActivated = new List<TargetBehaviour_M>(_targetsRef);
         PushButton.transform.DOScale(Vector3.one, 1f).SetEase(Ease.InBounce);
-        // Show data
 
     }
 
     private void AddScore(int score)
     {
         _currentScore += score;
-        // Update Canvas
+        ScoreText.text = "Score: \n" + _currentScore;
     }
 
 
