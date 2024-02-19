@@ -103,6 +103,6 @@ public class Notch_M : XRSocketInteractor
         //    SourceID = id
         //});
 
-        SoundManager.Instance.PlaySound(transform.position, clip, 1, Random.Range(minPitch, maxPitch));
+        SoundManager.Instance?.PlaySound(transform.position, clip, 1, Random.Range(minPitch, maxPitch));
     }
 }

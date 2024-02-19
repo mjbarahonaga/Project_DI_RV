@@ -162,7 +162,7 @@ public class Arrow_M : XRGrabInteractable
 
     private void ArrowSounds(AudioClip clip, float minPitch, float maxPitch, float volume)
     {
-        SoundManager.Instance.PlaySound(
+        SoundManager.Instance?.PlaySound(
             transform.position,
             clip,
             volume,

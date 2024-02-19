@@ -76,7 +76,7 @@ public class TargetBehaviour_M : MonoBehaviour, IHittable_M
     public void Activate(float timeActive = 4f)   // seconds
     {
         if(_isActivate) return; //Is already active... but it shouldn't, just in case (:
-        SoundManager.Instance.PlaySound(transform.position, ActivatedSound);
+        SoundManager.Instance?.PlaySound(transform.position, ActivatedSound);
         transform.DOMoveY(FinalPositionY, TimeToActivate).SetEase(TypeAnimation);
         _coroutine = Timing.RunCoroutine(ActiveCoroutine(timeActive));
         _isActivate = true;
@@ -96,14 +96,14 @@ public class TargetBehaviour_M : MonoBehaviour, IHittable_M
         if (hitted)
         {
             _hitParticles?.Play();
-            SoundManager.Instance.PlaySound(transform.position, HittedSound);
+            SoundManager.Instance?.PlaySound(transform.position, HittedSound);
             StartCoroutine(TextAnim());
             await transform.DOScale(0.5f, 1).SetEase(Ease.InBounce).AsyncWaitForCompletion();
-            SoundManager.Instance.PlaySound(transform.position, DeactivatedSound);
+            SoundManager.Instance?.PlaySound(transform.position, DeactivatedSound);
         }
         else
         {
-            SoundManager.Instance.PlaySound(transform.position, DeactivatedSound);
+            SoundManager.Instance?.PlaySound(transform.position, DeactivatedSound);
         }
         await transform.DOMoveY(InitalPositionY, TimeToDeactivate).SetEase(TypeAnimation).AsyncWaitForCompletion();
         OnDeactivatedTarget?.Invoke(this);
