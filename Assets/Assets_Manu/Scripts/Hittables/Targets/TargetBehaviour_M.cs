@@ -17,7 +17,7 @@ public class TargetBehaviour_M : MonoBehaviour, IHittable_M
 
 
     private CoroutineHandle _coroutine;
-    private bool _isActivate = false;
+    private bool _isActivated = false;
 
     #region Draw Gizmos
     [Header("Anim positions")]
@@ -56,9 +56,9 @@ public class TargetBehaviour_M : MonoBehaviour, IHittable_M
         _scoreText.text = Score.ToString();
     }
 
-    public void Hit()
+    public void Hit(Arrow_M arrow = null)
     {
-        if (!_isActivate) return;
+        if (!_isActivated) return;
         Timing.KillCoroutines(_coroutine);
         Deactivate();
         OnScore?.Invoke(Score);
@@ -75,11 +75,11 @@ public class TargetBehaviour_M : MonoBehaviour, IHittable_M
 
     public void Activate(float timeActive = 4f)   // seconds
     {
-        if(_isActivate) return; //Is already active... but it shouldn't, just in case (:
+        if(_isActivated) return; //Is already active... but it shouldn't, just in case (:
         SoundManager.Instance?.PlaySound(transform.position, ActivatedSound);
         transform.DOMoveY(FinalPositionY, TimeToActivate).SetEase(TypeAnimation);
         _coroutine = Timing.RunCoroutine(ActiveCoroutine(timeActive));
-        _isActivate = true;
+        _isActivated = true;
     }
 
     private IEnumerator<float> ActiveCoroutine(float timeActive)
@@ -92,7 +92,7 @@ public class TargetBehaviour_M : MonoBehaviour, IHittable_M
     {
         Timing.KillCoroutines(_coroutine);
         transform.DOKill();
-        _isActivate = false;
+        _isActivated = false;
         if (hitted)
         {
             _hitParticles?.Play();

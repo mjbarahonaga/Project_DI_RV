@@ -5,6 +5,7 @@ using MEC;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
+using System.Threading.Tasks;
 
 public class GameManager_Targets_M : MonoBehaviour
 {
@@ -48,13 +49,14 @@ public class GameManager_Targets_M : MonoBehaviour
         TargetBehaviour_M.OnDeactivatedTarget -= DeactivatedTarget;
     }
 
-    public void StartGame()
+    public async Task StartGame()
     {
         if(_gameStarted) return;
         _gameStarted = true;
         _currentScore = 0;
         _coroutine = Timing.RunCoroutine(UpdateGameCoroutine());
-        PushButton.transform.DOScale(Vector3.zero,1f).SetEase(Ease.OutBounce);
+        await PushButton.transform.DOScale(Vector3.zero,1f).SetEase(Ease.OutBounce).AsyncWaitForCompletion();
+        PushButton.SetActive(false);
     }
 
     private IEnumerator<float> UpdateGameCoroutine()
@@ -112,8 +114,8 @@ public class GameManager_Targets_M : MonoBehaviour
         _gameStarted = false;
         _targetsActivated.Clear();
         _targetsActivated = new List<TargetBehaviour_M>(_targetsRef);
+        PushButton.SetActive(true);
         PushButton.transform.DOScale(Vector3.one, 1f).SetEase(Ease.InBounce);
-
     }
 
     private void AddScore(int score)
