@@ -70,7 +70,7 @@ public class Arrow_M : XRGrabInteractable
             {
                 _rb.interpolation = RigidbodyInterpolation.None;
                 transform.parent = hit.transform;
-                hittable.Hit();
+                hittable.Hit(this);
                 Stop();
             }
             if(hit.transform.TryGetComponent(out BoxCollider collider))

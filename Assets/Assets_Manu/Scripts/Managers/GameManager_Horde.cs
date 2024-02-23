@@ -1,7 +1,9 @@
+using DG.Tweening;
+using MEC;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -21,7 +23,10 @@ public class GameManager_Horde : MonoBehaviour
     [Header("Horde Data")]
     public int InitNumberOfEnemies = 6;
     public int IncreasePerLevel = 6;
-    public float DelayBetweenSpawn = 1f;
+    public float DelayBetweenSpawnMin = 0.3f;
+    public float DelayBetweenSpawnMax = 1f;
+
+    
 
     #region DataGame
     private int _currentLives;
@@ -30,6 +35,11 @@ public class GameManager_Horde : MonoBehaviour
     private int _currentEnemiesAlive;
     private int _enemiesKilled = 0;
     #endregion
+    [Space(10)]
+    [Header("Objects in scene")]
+    public GameObject PushButton;
+    public TextMeshProUGUI ScoreText;
+
     private void Awake()
     {
         if (_instance != null)
@@ -101,10 +111,18 @@ public class GameManager_Horde : MonoBehaviour
     
     public void StartGame()
     {
+        Timing.RunCoroutine(StartGameCoroutine(), Segment.SlowUpdate);
+    }
+
+    public IEnumerator<float> StartGameCoroutine()
+    {
         _currentLevel = 0;
         _enemiesKilled = 0;
         _currentLives = GameLives;
         _ = NextHorde();
+        PushButton.transform.DOScale(Vector3.zero, 1f).SetEase(Ease.OutBounce);
+        yield return Timing.WaitForSeconds(1f);
+        PushButton.SetActive(false);
     }
 
     public void ReduceLives()
@@ -118,6 +136,8 @@ public class GameManager_Horde : MonoBehaviour
 
     public void EndGame()
     {
+        PushButton.SetActive(true);
+        PushButton.transform.DOScale(Vector3.one, 1f).SetEase(Ease.InBounce);
         OnFinishGame?.Invoke();
         // [Show data]
         // Show score
@@ -131,10 +151,13 @@ public class GameManager_Horde : MonoBehaviour
     {
         int amountEnemies = InitNumberOfEnemies + _currentLevel * IncreasePerLevel;
         _currentEnemiesAlive = amountEnemies;
-        int delay = ((int)DelayBetweenSpawn) * 1000;
+        int min = (int)DelayBetweenSpawnMin * 1000;
+        int max = (int)DelayBetweenSpawnMax * 1000;
+        int delay = 0;
         for (int i = 0; i < amountEnemies; ++i)
         {
             _enemyPool.Get();
+            delay = UnityEngine.Random.Range(min, max);
             await Task.Delay(delay);
         }
 

@@ -51,7 +51,6 @@ public class EnemyBehaviour : MonoBehaviour, IHittable_M
         //MyAnimator.SetTrigger(_idRunningAnim);
         _currentLives = Data.Lives;
         _agent.speed = Data.Speed;
-        Debug.Log("He sido Spawneado en: " + whereToSpawn.name + " posicion: " + whereToSpawn.position);
         _transform.position = whereToSpawn.position;
         //if (NavMesh.SamplePosition(whereToSpawn.position, out NavMeshHit closesthit, 500f, NavMesh.AllAreas))
         //    _transform.position = closesthit.position;
@@ -68,7 +67,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable_M
         _hitParticle?.Play();
         --_currentLives;
         if(_currentLives  == 0)
-        Timing.RunCoroutine(Killed(), MEC.Segment.SlowUpdate);
+            Timing.RunCoroutine(Killed(), Segment.SlowUpdate);
     }
 
     public IEnumerator<float> Killed()
@@ -89,8 +88,9 @@ public class EnemyBehaviour : MonoBehaviour, IHittable_M
         {
             arrow = _arrowsAttached[i];
             _arrowsAttached.RemoveAt(i);
-            Destroy(arrow);
+            arrow.gameObject.SetActive(false);
             --i;
+            --length;
         }
     }
 

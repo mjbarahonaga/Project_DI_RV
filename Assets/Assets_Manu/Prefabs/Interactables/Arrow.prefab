@@ -10286,7 +10286,7 @@ MonoBehaviour:
   SphereCollider: {fileID: 8308941271632691852}
   _layersToAvoidOnHit:
     serializedVersion: 2
-    m_Bits: 200
+    m_Bits: 2248
   TrailParticle: {fileID: 6361444922607483788}
   HitParticle: {fileID: 1211628067597966733}
   TrailRenderer: {fileID: 8846485861766642570}
