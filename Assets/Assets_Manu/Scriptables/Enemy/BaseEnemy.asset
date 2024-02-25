@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BaseEnemy
   m_EditorClassIdentifier: 
   Lives: 1
-  Speed: 3.4
+  Speed: 2.8
   Reward: 5

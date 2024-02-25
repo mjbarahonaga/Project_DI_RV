@@ -26,14 +26,15 @@ public class GameManager_Horde : MonoBehaviour
     public float DelayBetweenSpawnMin = 0.3f;
     public float DelayBetweenSpawnMax = 1f;
 
-    
+
 
     #region DataGame
-    private int _currentLives;
-    private int _currentScore = 0;
+    [Header("Data current game")]
+    [SerializeField] private int _currentLives;
+    [SerializeField] private int _currentScore = 0;
     [SerializeField] private int _currentLevel = 0;
-    private int _currentEnemiesAlive;
-    private int _enemiesKilled = 0;
+    [SerializeField] private int _currentEnemiesAlive;
+    [SerializeField] private int _enemiesKilled = 0;
     #endregion
     [Space(10)]
     [Header("Objects in scene")]
@@ -103,11 +104,20 @@ public class GameManager_Horde : MonoBehaviour
         _currentScore += enemy.Data.Reward;
         ++_enemiesKilled;
         ReturnToPool(enemy);
-        --_currentEnemiesAlive;
+
+        CheckNextHorde();
+    }
+
+    private void CheckNextHorde()
+    {
         if (_currentEnemiesAlive == 0) _ = NextHorde();
     }
 
-    public void ReturnToPool(EnemyBehaviour enemy) => _enemyPool.Release(enemy);
+    public void ReturnToPool(EnemyBehaviour enemy)
+    {
+        _enemyPool.Release(enemy);
+        --_currentEnemiesAlive;
+    } 
     
     public void StartGame()
     {
@@ -131,6 +141,10 @@ public class GameManager_Horde : MonoBehaviour
         if( _currentLives == 0 )
         {
             EndGame();
+        }
+        else
+        {
+            CheckNextHorde();
         }
     }
 
