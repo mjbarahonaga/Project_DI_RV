@@ -49,13 +49,19 @@ public class GameManager_Targets_M : MonoBehaviour
         TargetBehaviour_M.OnDeactivatedTarget -= DeactivatedTarget;
     }
 
-    public async Task StartGame()
+    public void StartGame()
     {
         if(_gameStarted) return;
         _gameStarted = true;
         _currentScore = 0;
         _coroutine = Timing.RunCoroutine(UpdateGameCoroutine());
-        await PushButton.transform.DOScale(Vector3.zero,1f).SetEase(Ease.OutBounce).AsyncWaitForCompletion();
+        Timing.RunCoroutine(FeedbackCoroutine());
+    }
+
+    public IEnumerator<float> FeedbackCoroutine()
+    {
+        PushButton.transform.DOScale(Vector3.zero, 1f).SetEase(Ease.OutBounce);
+        yield return Timing.WaitForSeconds(1);
         PushButton.SetActive(false);
     }
 

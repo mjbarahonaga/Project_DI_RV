@@ -40,6 +40,7 @@ public class GameManager_Horde : MonoBehaviour
     [Header("Objects in scene")]
     public GameObject PushButton;
     public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI LivesText;
 
     private void Awake()
     {
@@ -129,6 +130,7 @@ public class GameManager_Horde : MonoBehaviour
         _currentLevel = 0;
         _enemiesKilled = 0;
         _currentLives = GameLives;
+        if(LivesText) LivesText.text = GameLives.ToString();
         _ = NextHorde();
         PushButton.transform.DOScale(Vector3.zero, 1f).SetEase(Ease.OutBounce);
         yield return Timing.WaitForSeconds(1f);
@@ -138,7 +140,8 @@ public class GameManager_Horde : MonoBehaviour
     public void ReduceLives()
     {
         --_currentLives;
-        if( _currentLives == 0 )
+        if (LivesText) LivesText.text = _currentLives.ToString();
+        if ( _currentLives == 0 )
         {
             EndGame();
         }
