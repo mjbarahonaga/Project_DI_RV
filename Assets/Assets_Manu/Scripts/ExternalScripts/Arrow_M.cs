@@ -12,9 +12,11 @@ using System;
 public class Arrow_M : XRGrabInteractable
 {
     public float Speed = 1000f;
+    public float MaxTimeInAir = 15f;
+    public float TimeToDestroy = 8f;
     public Transform Tip;
     public Collider SphereCollider;
-    [SerializeField] private LayerMask _layersToAvoidOnHit;
+    [SerializeField] protected LayerMask _layersToAvoidOnHit;
     [Header("Particles")]
     public ParticleSystem TrailParticle;
     public ParticleSystem HitParticle;
@@ -24,11 +26,11 @@ public class Arrow_M : XRGrabInteractable
     public AudioClip LaunchClip;
     public AudioClip HitClip;
 
-    private bool _inAir = false;
-    private Vector3 _lastPosition = Vector3.zero;
-    private CoroutineHandle _updateCoroutine;
-    [SerializeField] private Rigidbody _rb;
-    [SerializeField] private int _changeToIgnoreLayer = -1;
+    protected bool _inAir = false;
+    protected Vector3 _lastPosition = Vector3.zero;
+    protected CoroutineHandle _updateCoroutine;
+    [SerializeField] protected Rigidbody _rb;
+    [SerializeField] protected int _changeToIgnoreLayer = -1;
     protected override void Awake()
     {
         base.Awake();
@@ -42,18 +44,22 @@ public class Arrow_M : XRGrabInteractable
         }
     }
 
-    private IEnumerator<float> UpdateCoroutine()
+    protected virtual IEnumerator<float> UpdateCoroutine()
     {
+        float timeInAir = 0f;
+
         while (_inAir)
         {
             CheckCollision();
             _lastPosition = Tip.position;
+            timeInAir += Time.deltaTime;
+            if (timeInAir > MaxTimeInAir) Stop(hitted: false);
             yield return Timing.WaitForOneFrame;
         }
         yield return 0f;
     }
 
-    private void CheckCollision()
+    protected virtual void CheckCollision()
     {
         if(Physics.Linecast(_lastPosition, Tip.position, out RaycastHit hit))
         {
@@ -82,38 +88,40 @@ public class Arrow_M : XRGrabInteractable
         }
     }
 
-    private void Stop()
+    protected virtual void Stop(bool hitted = true)
     {
         _inAir = false;
         Timing.KillCoroutines(_updateCoroutine);
         SetPhysics(false);
 
         ArrowParticles(false);
-        ArrowSounds(HitClip, 1.5f, 2, 0.8f);
+        if(hitted)
+            ArrowSounds(HitClip, 1.5f, 2, 0.8f);
+        Timing.RunCoroutine(ToDestroy(TimeToDestroy));
     }
 
-    public void Release(float value)
+    public virtual void Release(float value)
     {
         _inAir = true;
         SetPhysics(true);
         MaskAndFire(value);
         Timing.RunCoroutine(RotateWithVelocity());
+        _lastPosition = Tip.position;
         _updateCoroutine = Timing.RunCoroutine(UpdateCoroutine(), Segment.FixedUpdate);
 
-        _lastPosition = Tip.position;
 
         ArrowParticles(true);
         ArrowSounds(LaunchClip, 4.2f + (0.6f * value), 4.4f + (.6f * value), Mathf.Max(0.7f, value));
         
     }
 
-    private void SetPhysics(bool usePhysics)
+    protected void SetPhysics(bool usePhysics)
     {
         _rb.useGravity = usePhysics;
         _rb.isKinematic = !usePhysics;
     }
 
-    private void MaskAndFire(float power)
+    protected virtual void MaskAndFire(float power)
     {
         
         colliders[0].enabled = false;
@@ -124,7 +132,7 @@ public class Arrow_M : XRGrabInteractable
         transform.parent = null;
     }
 
-    private IEnumerator<float> RotateWithVelocity()
+    protected IEnumerator<float> RotateWithVelocity()
     {
         
         while (_inAir)
@@ -145,7 +153,7 @@ public class Arrow_M : XRGrabInteractable
         }
     }
 
-    private void ArrowParticles(bool release)
+    protected void ArrowParticles(bool release)
     {
         if(release)
         {
@@ -160,13 +168,19 @@ public class Arrow_M : XRGrabInteractable
         }
     }
 
-    private void ArrowSounds(AudioClip clip, float minPitch, float maxPitch, float volume)
+    protected void ArrowSounds(AudioClip clip, float minPitch, float maxPitch, float volume)
     {
         SoundManager.Instance?.PlaySound(
             transform.position,
             clip,
             volume,
             UnityEngine.Random.Range(minPitch, maxPitch));
+    }
+
+    protected virtual IEnumerator<float> ToDestroy(float time)
+    {
+        yield return Timing.WaitForSeconds(time);
+        Destroy(this.gameObject);
     }
 
     public void ChangeLayer()
@@ -177,7 +191,7 @@ public class Arrow_M : XRGrabInteractable
 #if UNITY_EDITOR
 
     // Pre load data
-    private void OnValidate()
+    protected void OnValidate()
     {
         if(_changeToIgnoreLayer == -1)
         {

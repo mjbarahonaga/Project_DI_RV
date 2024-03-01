@@ -5,15 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Assets_Manu/Scenes/Menu_Scene.unity
     guid: 0fa65524b972b37449aacefe801eccf6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Assets_Manu/Scenes/Targets_Scene.unity
     guid: 3f6a8d3de7e36a445b4f78b463d4d45e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Assets_Manu/Scenes/Horde_Scene.unity
     guid: 7345cb863aa328a48a8ce659cce02b68
+  - enabled: 1
+    path: Assets/Assets_Manu/Scenes/Teleport_Scene.unity
+    guid: 7d48159308d08b94abde7019797fcb44
   m_configObjects:
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: a1e1434506b53fc448a2d482c30b89b2,
       type: 2}
