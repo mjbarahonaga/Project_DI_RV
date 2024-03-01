@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Assets_Manu/Scenes/Menu_Scene.unity
     guid: 0fa65524b972b37449aacefe801eccf6
-  - enabled: 0
+  - enabled: 1
     path: Assets/Assets_Manu/Scenes/Targets_Scene.unity
     guid: 3f6a8d3de7e36a445b4f78b463d4d45e
-  - enabled: 0
+  - enabled: 1
     path: Assets/Assets_Manu/Scenes/Horde_Scene.unity
     guid: 7345cb863aa328a48a8ce659cce02b68
   - enabled: 1

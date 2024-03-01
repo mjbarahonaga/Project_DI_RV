@@ -39,8 +39,13 @@ public class GameManager_Horde : MonoBehaviour
     [Space(10)]
     [Header("Objects in scene")]
     public GameObject PushButton;
-    public TextMeshProUGUI ScoreText;
     public TextMeshProUGUI LivesText;
+
+    [Header("Info showed")]
+    public GameObject PanelInfo;
+    public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI EnemiesKilledText;
+    public TextMeshProUGUI LevelText;
 
     private void Awake()
     {
@@ -54,6 +59,7 @@ public class GameManager_Horde : MonoBehaviour
 
     public void Start()
     {
+        PanelInfo.SetActive(false);
         Init();
     }
 
@@ -122,6 +128,7 @@ public class GameManager_Horde : MonoBehaviour
     
     public void StartGame()
     {
+        PanelInfo.SetActive(false);
         Timing.RunCoroutine(StartGameCoroutine(), Segment.SlowUpdate);
     }
 
@@ -157,10 +164,10 @@ public class GameManager_Horde : MonoBehaviour
         PushButton.transform.DOScale(Vector3.one, 1f).SetEase(Ease.InBounce);
         OnFinishGame?.Invoke();
         // [Show data]
-        // Show score
-        // Show hordes
-        // Show how many enemies killed
-
+        PanelInfo.SetActive(true);
+        ScoreText.text = $"Score: {_currentScore}";
+        LevelText.text = $"Level: {_currentLevel}";
+        EnemiesKilledText.text = $"Enemies killed: {_enemiesKilled}";
 
     }
 
