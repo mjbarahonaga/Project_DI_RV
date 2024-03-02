@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "com.atteneder.gltfast": "file:C:/Users/Sat1/Desktop/glTFast-com.atteneder.gltfast-6.2.0/glTFast-com.atteneder.gltfast-6.2.0",
+    "com.dgreenheck.openfracture": "https://github.com/dgreenheck/OpenFracture.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.ads": "4.4.2",
@@ -9,6 +11,7 @@
     "com.unity.ide.rider": "3.0.27",
     "com.unity.ide.visualstudio": "2.0.22",
     "com.unity.ide.vscode": "1.2.5",
+    "com.unity.postprocessing": "3.4.0",
     "com.unity.purchasing": "4.9.3",
     "com.unity.render-pipelines.universal": "14.0.9",
     "com.unity.test-framework": "1.1.33",
