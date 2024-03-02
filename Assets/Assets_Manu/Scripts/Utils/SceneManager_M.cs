@@ -6,14 +6,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class SceneManager : MonoBehaviour
+public class SceneManager_M : MonoBehaviour
 {
     public void StartLoadingScene(int sceneId)
     {
         FadeController.Instance.StartFadeIn(2,
         () =>
         {
-            var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneId);
+            var loading = SceneManager.LoadSceneAsync(sceneId);
             loading.completed +=
                 (AsyncOperation) =>
                 {
@@ -24,12 +24,17 @@ public class SceneManager : MonoBehaviour
         true);
     }
 
+    internal static void LoadScene(string v)
+    {
+        throw new NotImplementedException();
+    }
+
     public void StartLoadingScene(string sceneName)
     {
         FadeController.Instance.StartFadeIn(2,
         () =>
         {
-            var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
+            var loading = SceneManager.LoadSceneAsync(sceneName);
             loading.completed +=
                 (AsyncOperation) =>
                 {
