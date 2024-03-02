@@ -10,6 +10,7 @@ public class SceneManager_M : MonoBehaviour
 {
     public void StartLoadingScene(int sceneId)
     {
+        Timing.KillCoroutines();
         FadeController.Instance.StartFadeIn(2,
         () =>
         {
@@ -24,13 +25,9 @@ public class SceneManager_M : MonoBehaviour
         true);
     }
 
-    internal static void LoadScene(string v)
-    {
-        throw new NotImplementedException();
-    }
-
     public void StartLoadingScene(string sceneName)
     {
+        Timing.KillCoroutines();
         FadeController.Instance.StartFadeIn(2,
         () =>
         {

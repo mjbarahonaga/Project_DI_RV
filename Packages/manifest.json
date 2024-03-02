@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.atteneder.gltfast": "file:C:/Users/Sat1/Desktop/glTFast-com.atteneder.gltfast-6.2.0/glTFast-com.atteneder.gltfast-6.2.0",
     "com.dgreenheck.openfracture": "https://github.com/dgreenheck/OpenFracture.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",

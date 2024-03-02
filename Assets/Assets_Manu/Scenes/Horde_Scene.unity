@@ -4193,6 +4193,11 @@ PrefabInstance:
       objectReference: {fileID: 1698365183}
     - target: {fileID: 2761784063978902503, guid: c1800acf6366418a9b5f610249000331,
         type: 3}
+      propertyPath: m_HitDetectionType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761784063978902503, guid: c1800acf6366418a9b5f610249000331,
+        type: 3}
       propertyPath: m_MaxRaycastDistance
       value: 50
       objectReference: {fileID: 0}
@@ -15593,7 +15598,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 8
+    m_Bits: 32
   m_DistanceCalculationMode: 0
   m_SelectMode: 0
   m_FocusMode: 1
@@ -20530,7 +20535,7 @@ PrefabInstance:
     - target: {fileID: 177122729711664640, guid: a0b28e4a3cd38d34f9e60d7f3aa071bb,
         type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1036048646788720664, guid: a0b28e4a3cd38d34f9e60d7f3aa071bb,
         type: 3}
@@ -21288,7 +21293,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 2147483653
+    m_Bits: 32
   m_AttachTransform: {fileID: 0}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -25939,6 +25944,11 @@ PrefabInstance:
       propertyPath: m_AttachTransform
       value: 
       objectReference: {fileID: 808323256}
+    - target: {fileID: 2761784063978902503, guid: c1800acf6366418a9b5f610249000331,
+        type: 3}
+      propertyPath: m_HitDetectionType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2761784063978902503, guid: c1800acf6366418a9b5f610249000331,
         type: 3}
       propertyPath: m_MaxRaycastDistance
