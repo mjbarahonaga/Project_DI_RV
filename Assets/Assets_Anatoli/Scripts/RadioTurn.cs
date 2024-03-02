@@ -42,5 +42,7 @@ public class RadioTurn : MonoBehaviour
     public void DownVolume()
     {
         audioSource.volume = 0.01f;
+        endLevel.SetActive(false);
     }
+
 }
