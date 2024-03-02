@@ -8,15 +8,17 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Weapon
   - Water
   - UI
   - Riffle
   - Key
-  - 
-  - 
-  - 
-  - 
+  - Hand
+  - Arrow
+  - Targets
+  - Ignore
+  - WalkableTiles
+  - Teleport
   - 
   - 
   - 
